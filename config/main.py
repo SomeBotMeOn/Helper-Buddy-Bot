@@ -1,5 +1,4 @@
 # модули которые подключаем с других папок
-from handlers.starthandler import main
 from handlers.messagehandler import info
 from handlers.messagehandler_2 import weather
 from handlers.messagehandler_2 import information
@@ -19,20 +18,9 @@ from utilits.logger import commands
 
 # gitignore будет использоватья при загрузку на гитхаб, для зпрета гитхабу на доступ к некоторым приватным папкам
 
-import webbrowser
-import time
-from datetime import datetime
-import requests
+from config.bot_instance import bot
+from handlers.starthandler import main
 
-# модули для работы с env
-import os
-from dotenv import load_dotenv
-
-import telebot
-
-load_dotenv()
-bot = telebot.TeleBot(os.getenv('TOKEN')) # ссылаемся на токен в файле evn
-API_weather = os.getenv('API_W') # ссылаемся на апишник в файле evn
 stickers = {
     'hi_sticker': 'CAACAgIAAxkBAAEM2SNm7rivIR7mxs0IVtV7czfYY_hCywACBQADwDZPE_lqX5qCa011NgQ'
 }

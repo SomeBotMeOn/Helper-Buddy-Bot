@@ -1,4 +1,6 @@
 # Для обработки команды старт
+from config.bot_instance import bot
+
 def main(message):
     # Хранит информацию про пользователя и чат
     first_name = message.from_user.first_name if message.from_user.first_name else 'Незнакомец'
