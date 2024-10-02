@@ -1,5 +1,5 @@
 # Для обработки команды старт
-from config.bot_instance import bot
+from bot_instance import bot
 
 def main(message):
     # Хранит информацию про пользователя и чат

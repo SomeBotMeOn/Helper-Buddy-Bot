@@ -16,18 +16,10 @@ from utilits.logger import commands
 #           main - тело бота, основной файл запуска бота
 #           env - файл с зашифрованными данными
 
-# gitignore будет использоватья при загрузку на гитхаб, для зпрета гитхабу на доступ к некоторым приватным папкам
 
-from config.bot_instance import bot
+from bot_instance import bot
 from handlers.starthandler import main
-
-stickers = {
-    'hi_sticker': 'CAACAgIAAxkBAAEM2SNm7rivIR7mxs0IVtV7czfYY_hCywACBQADwDZPE_lqX5qCa011NgQ'
-}
-
-emoji = {
-    'hi_emoji': '\U0001f44b'
-}
+from utilits.assets import stickers, emoji
 
 # обработка команды старт; команда в папке handlers в starthandler
 @bot.message_handler(commands=['start'])
