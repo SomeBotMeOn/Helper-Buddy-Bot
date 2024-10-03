@@ -1,4 +1,3 @@
-# модули которые подключаем с других папок
 from handlers.messagehandler import info
 from handlers.messagehandler_2 import weather
 from handlers.messagehandler_2 import information
@@ -7,15 +6,14 @@ from utilits.logger import commands
 
 # Описание папок
 # Utilits единственный файл который здесь лежит это
-#          logger он перемещает команды В @BotFather (бот в тг), эти команды будут встрроены в бот по умолчанию
-#Handlers отвечает за обраблтку сообщений
+#          logger он перемещает команды В @BotFather (бот в тг), эти команды будут встроены в бот по умолчанию
+#Handlers отвечает за обработку сообщений
 #           starthandler - обработка сообщений при команде старт
 #           messangehandler - обработка сообщений от пользователя
 #           messangehandler_2 - обработка запросов от встроенных команд бота
 # Config - конфигурация
 #           main - тело бота, основной файл запуска бота
 #           env - файл с зашифрованными данными
-
 
 from bot_instance import bot
 from handlers.starthandler import main
