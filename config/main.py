@@ -4,6 +4,7 @@ from handlers.messagehandler_2 import information
 from handlers.messagehandler_2 import site_with_weather
 from utilits.logger import commands
 
+#
 # Описание папок
 # Utilits единственный файл который здесь лежит это
 #          logger он перемещает команды В @BotFather (бот в тг), эти команды будут встроены в бот по умолчанию
@@ -14,6 +15,7 @@ from utilits.logger import commands
 # Config - конфигурация
 #           main - тело бота, основной файл запуска бота
 #           env - файл с зашифрованными данными
+#
 
 from bot_instance import bot
 from handlers.starthandler import main
