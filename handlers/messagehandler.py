@@ -1,3 +1,6 @@
+from bot_instance import bot
+from utilits.assets import stickers, emoji
+
 # функция обработки сообщений от пользователя
 def info(message):
     if message.text.lower() == 'привет':

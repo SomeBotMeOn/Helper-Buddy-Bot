@@ -4,10 +4,6 @@ commands_bot = [
     '/information', # инфа о чате и пользователе
     'привет', # эмодзи привет (ладошка)
     'id' # id пользователя
-    '/site_weather, /website_weather, /сайт_погода' # отправляет пользователя на сайт
+    '/site_weather, /website_weather, /сайт_погода', # отправляет пользователя на сайт
+    '/users' # выводит всех пользователей
 ]
-
-def commands(message):
-    # функция выводит список команд
-    commands_list = '\n'.join(commands_bot)
-    bot.send_message(message.chat.id, commands_list)

@@ -1,8 +1,11 @@
+from pyexpat.errors import messages
+
 from handlers.messagehandler import info
 from handlers.messagehandler_2 import weather
 from handlers.messagehandler_2 import information
 from handlers.messagehandler_2 import site_with_weather
-from utilits.logger import commands
+from handlers.messagehandler_2 import commands
+from handlers.messagehandler_2 import print_all_users
 
 #
 # Описание папок
@@ -43,6 +46,11 @@ def site(message):
 def com(message):
     commands(message)
 
+@bot.message_handler(commands=['users'])
+def print_users(message):
+    # функция выводит всех пользователей
+    print_all_users(message)
+
 # обработка текстовых сообщений пользователя c файла messagehandler
 @bot.message_handler()
 def massage_w(message):
@@ -51,7 +59,8 @@ def massage_w(message):
 '''
 Необходимо, чтобы программа работала постоянно, иначе бот будет работать только во время компиляции кода
 '''
-bot.polling(none_stop=True) # программа работает без остановки
+if __name__ == '__main__':
+    bot.polling(none_stop=True) # программа работает без остановки
 
 
 
