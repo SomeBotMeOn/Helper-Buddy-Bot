@@ -8,7 +8,10 @@ def func_buttons(message):
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
     weather_button = types.KeyboardButton('Погода')
     news_button = types.KeyboardButton('Новости')
+    clothes_button = types.KeyboardButton('Одежда')
+    events_button = types.KeyboardButton('Мероприятия')
     markup.row(weather_button, news_button)
+    markup.row(clothes_button, events_button)
     bot.send_message(message.chat.id, "Что вы хотите узнать сегодня?", reply_markup=markup)
 
 @bot.message_handler(func=lambda message: message.text == 'Погода')

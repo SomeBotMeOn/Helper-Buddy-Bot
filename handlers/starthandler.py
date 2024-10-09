@@ -7,7 +7,7 @@ from telebot import types
 
 from bot_instance import bot
 from utilits.assets import stickers, emoji
-from handlers.messagehandler_2 import user_name, callback
+from handlers.messagehandler_2 import callback, get_user_name, ask_user_name
 from bot_instance import bot
 
 
@@ -22,9 +22,4 @@ def main(message):
                         'а также определиться куда сегодня пойти.')
     bot.send_message(message.chat.id, greeting_message, parse_mode='html')
 
-    ask_name_message = 'Как я могу к Вам обращаться?'
-    bot.send_message(message.chat.id, ask_name_message, parse_mode='html')
-
-    bot.register_next_step_handler(message, user_name)
-
-    #  ПЕРЕСТАВИТЬ GREETING MESSAGE В USER_NAME
+    ask_user_name(message)

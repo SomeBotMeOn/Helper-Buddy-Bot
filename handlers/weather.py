@@ -1,6 +1,7 @@
 import telebot
 import requests
 import datetime
+import sqlite3
 
 from bot_instance import bot, API_weather
 from utilits.assets import icon_to_emoji, precip_dict
@@ -189,16 +190,32 @@ def format_precipitation_forecast(forecast_data):
 def show_weather(message):
     """Функция выводит погоду из JSON на экран пользователя"""
 
-    city = "Санкт-Петербург"
+    # Получаем город пользователя
+    user_id = message.from_user.id
+    conn = sqlite3.connect('../database/users_db.sql')
+    cur = conn.cursor()
+    cur.execute("SELECT city FROM users WHERE id=?",
+                (user_id,))
+    result = cur.fetchone()
 
-    # Получаем текущую погоду
-    current_weather_data = get_current_weather(city)
-    current_weather_message = format_current_weather(current_weather_data)
+    if result:
 
-    # Получаем прогноз осадков
-    forecast_weather_data = get_forecast_weather(city)
-    precipitation_message = format_precipitation_forecast(forecast_weather_data)
+        city = result[0]
 
-    # Отправляем информацию о погоде (разными сообщениями в тг)
-    bot.send_message(message.chat.id, current_weather_message)
-    bot.send_message(message.chat.id, precipitation_message)
+        # Получаем текущую погоду
+        current_weather_data = get_current_weather(city)
+        current_weather_message = format_current_weather(current_weather_data)
+
+        # Получаем прогноз осадков
+        forecast_weather_data = get_forecast_weather(city)
+        precipitation_message = format_precipitation_forecast(forecast_weather_data)
+
+        # Отправляем информацию о погоде (разными сообщениями в тг)
+        bot.send_message(message.chat.id, current_weather_message)
+        bot.send_message(message.chat.id, precipitation_message)
+
+    else:
+        bot.reply_to(message, f'Произошла непредвиденная ошибка! Пожалуйста, повторите запрос позднее!')
+
+    cur.close()
+    conn.close()
