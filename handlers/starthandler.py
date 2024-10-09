@@ -2,11 +2,14 @@
 from gc import callbacks
 import sqlite3
 import telebot
+import requests
+from telebot import types
 
 from bot_instance import bot
 from utilits.assets import stickers, emoji
-from handlers.messagehandler_2 import user_name
+from handlers.messagehandler_2 import user_name, callback
 from bot_instance import bot
+from handlers.messagehandler_2 import buttons
 
 
 def main(message):
@@ -22,4 +25,7 @@ def main(message):
 
     ask_name_message = 'Как я могу к Вам обращаться?'
     bot.send_message(message.chat.id, ask_name_message, parse_mode='html')
+
     bot.register_next_step_handler(message, user_name)
+
+    #  ПЕРЕСТАВИТЬ GREETING MESSAGE В USER_NAME
