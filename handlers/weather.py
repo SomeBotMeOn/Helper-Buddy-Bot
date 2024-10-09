@@ -182,8 +182,8 @@ def format_precipitation_forecast(forecast_data):
                     '\n'.join(messages)
             )
             return precipitation_message
-        else:
-            return 'В ближайшие 24 часа осадков не ожидается! 😉'
+    else:
+        return 'В ближайшие 24 часа осадков не ожидается! 😉'
 
 
 def show_weather(message):
