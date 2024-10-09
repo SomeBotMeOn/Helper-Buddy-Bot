@@ -106,7 +106,7 @@ def show_weather(message):
     # Проверка на видимость
     if visibility < 500:
         message_lines.append(f"⚠️ Видимость сильно ограничена: {visibility} м ⚠️")
-    elif visibility < 1000:
+    elif 500 <= visibility < 1000:
         message_lines.append(f"⚠️ Видимость ограничена: {visibility} м ⚠️")
 
     # Вывод заката и восхода солнца
