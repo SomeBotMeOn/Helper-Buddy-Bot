@@ -9,7 +9,6 @@ from bot_instance import bot
 from utilits.assets import stickers, emoji
 from handlers.messagehandler_2 import user_name, callback
 from bot_instance import bot
-from handlers.messagehandler_2 import buttons
 
 
 def main(message):

@@ -2,13 +2,14 @@ import sqlite3
 import telebot
 import requests
 import datetime
+from telebot import types
 
 from pyexpat.errors import messages
 from utilits.logger import commands_bot
-from telebot import types
 from bot_instance import bot, API_weather
 from utilits.assets import stickers, emoji, icon_to_emoji
 from handlers.weather import show_weather
+from handlers.buttons import func_buttons
 
 # Обработка других встроенных команд
 def weather(message):
@@ -46,20 +47,7 @@ def user_name(message):
     bot.send_message(message.chat.id, confirmation_message, parse_mode='html')
 
     # ПЕРЕСТАВИТЬ BUTTON ТАК, ЧТОБЫ ОНИ ПОЯВЛЯЛИСЬ ПОСЛЕ ВВОДА ПОЛЬЗОВАТЕЛЕМ ВСЕЙ ИНФОРМАЦИИ
-    buttons(message)
-
-def buttons(message):
-    # создаем кнопки
-    markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True, one_time_keyboard=True)
-    weather_button = types.KeyboardButton('Погода')
-    news_button = types.KeyboardButton('Новости')
-    markup.row(weather_button, news_button)
-    bot.send_message(message.chat.id, "Что вы хотите узнать сегодня?", reply_markup=markup)
-
-@bot.message_handler(func=lambda message: message.text == 'Погода')
-def import_show_weather(message):
-    # функция вызывает печать информации о погоде из файла weather.py
-    show_weather(message)
+    func_buttons(message)
 
 
 
