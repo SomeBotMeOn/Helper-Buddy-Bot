@@ -144,7 +144,7 @@ def format_precipitation_forecast(forecast_data):
         messages = []
         for interval in precipitation_intervals:
             start_dt = interval['start']
-            end_dt = interval['end']
+            end_dt = interval['end'] + datetime.timedelta(hours=3)  # Добавляем 3 часа к концу интервала
             precip_type = interval['type']
 
             # Определяем, сегодня или завтра
@@ -184,7 +184,7 @@ def format_precipitation_forecast(forecast_data):
             )
             return precipitation_message
     else:
-        return 'В ближайшие 24 часа осадков не ожидается! 😉'
+        return 'В ближайшие 24 часа осадков не ожидается! 😉 \nНо это не точно! 🤫'
 
 
 def show_weather(message):
