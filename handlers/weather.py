@@ -192,9 +192,9 @@ def show_weather(message):
 
     # Получаем город пользователя
     user_id = message.from_user.id
-    conn = sqlite3.connect('../database/users_db.sql')
+    conn = sqlite3.connect('../database/weather_outside.sqlite3')
     cur = conn.cursor()
-    cur.execute("SELECT city FROM users WHERE id=?",
+    cur.execute("SELECT city FROM person WHERE id=?",
                 (user_id,))
     result = cur.fetchone()
 

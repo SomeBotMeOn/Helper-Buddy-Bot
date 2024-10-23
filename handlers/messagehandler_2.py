@@ -1,4 +1,6 @@
 import sqlite3
+
+import pandas as pd
 import telebot
 import requests
 import datetime
@@ -10,6 +12,8 @@ from bot_instance import bot, API_weather
 from utilits.assets import stickers, emoji, icon_to_emoji
 from handlers.weather import show_weather
 from handlers.buttons import func_buttons
+from models.rewrite_classif_data import knn_and_rewrite
+from database.personal_classif import personal_classification
 
 # Обработка других встроенных команд
 def weather(message):
@@ -38,10 +42,6 @@ def information(message):
     # Выводит всю информацию о пользователе и чате
     bot.send_message(message.chat.id, message)
 
-def site_with_weather(message):
-    # функция отправляет пользователя на сайт с погодой
-    webbrowser.open('https://openweathermap.org/weathermap')
-
 def commands(message):
     # функция выводит список команд
     commands_list = '\n'.join(commands_bot)
@@ -56,16 +56,16 @@ def ask_user_name(message):
 def get_user_name(message):
     # Получаем и сохраняем имя пользователя
     name = message.text.strip()
-    conn = sqlite3.connect('../database/users_db.sql')
+    conn = sqlite3.connect('../database/weather_outside.sqlite3')
     cur = conn.cursor()
-    cur.execute('SELECT id FROM users WHERE id = ?',
+    cur.execute('SELECT id FROM person WHERE id = ?',
                 (message.from_user.id,))
     if cur.fetchone() is not None:
         # Если пользователь уже есть, обновим его имя
-        cur.execute('UPDATE users SET name = ? WHERE id = ?',
+        cur.execute('UPDATE person SET name = ? WHERE id = ?',
                     (name, message.from_user.id))
     else:
-        cur.execute('INSERT INTO users (id, name) VALUES (?, ?)',
+        cur.execute('INSERT INTO person (id, name) VALUES (?, ?)',
                     (message.from_user.id, name))
     conn.commit()
 
@@ -97,17 +97,17 @@ def get_user_city(message):
 
     # Проверяем город на существование
     if check_city_exists(city):
-        conn = sqlite3.connect('../database/users_db.sql')
+        conn = sqlite3.connect('../database/weather_outside.sqlite3')
         cur = conn.cursor()
-        cur.execute('SELECT * FROM users WHERE id = ?',
+        cur.execute('SELECT * FROM person WHERE id = ?',
                     (message.from_user.id,))
         user = cur.fetchone()
         if user:  # Если пользователь существует, обновляем его город
-            cur.execute('UPDATE users SET city = ? WHERE id = ?',
+            cur.execute('UPDATE person SET city = ? WHERE id = ?',
                         (city, message.from_user.id))
             confirmation_message = f"Ваш город был обновлен на {city}!"
         else:  # Иначе добавляем нового пользователя с указанным городом
-            cur.execute('INSERT INTO users (id, city) VALUES (?, ?)',
+            cur.execute('INSERT INTO person (id, city) VALUES (?, ?)',
                         (message.from_user.id, city))
             confirmation_message = f"Спасибо, Ваш город {city} был успешно добавлен!"
         conn.commit()
@@ -116,6 +116,8 @@ def get_user_city(message):
 
         bot.send_message(message.chat.id, confirmation_message, parse_mode='html')
 
+        personal_classification(message.from_user.id)
+
         # ПОСЛЕ СБОРА ВСЕХ ДАННЫХ ОТОБРАЖАЕМ КНОПКИ
         func_buttons(message)
 
@@ -123,6 +125,8 @@ def get_user_city(message):
         error_message = f"К сожалению, Вы указали город с ошибкой, либо такого города не существует! Попробуйте еще раз!"
         msg = bot.send_message(message.chat.id, error_message, parse_mode='html')
         bot.register_next_step_handler(msg, get_user_city)
+
+
 
 
 

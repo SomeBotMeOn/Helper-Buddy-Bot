@@ -3,7 +3,6 @@ from pyexpat.errors import messages
 from handlers.messagehandler import info
 from handlers.messagehandler_2 import weather
 from handlers.messagehandler_2 import information
-from handlers.messagehandler_2 import site_with_weather
 from handlers.messagehandler_2 import commands
 from handlers.messagehandler_2 import print_all_users
 
@@ -37,10 +36,6 @@ def weather_2(message):
 @bot.message_handler(commands=['information'])
 def infa(message):
     information(message)
-
-@bot.message_handler(commands=['site_weather', 'website_weather', 'сайт_погода'])
-def site(message):
-    site_with_weather(message)
 
 @bot.message_handler(commands=['commands'])
 def com(message):

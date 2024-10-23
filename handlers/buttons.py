@@ -2,6 +2,7 @@ from telebot import types
 
 from handlers.weather import show_weather
 from bot_instance import bot
+from models.rewrite_classif_data import personal_cloth
 
 def func_buttons(message):
     # создаем кнопки
@@ -18,3 +19,8 @@ def func_buttons(message):
 def import_show_weather(message):
     # функция вызывает печать информации о погоде из файла weather.py
     show_weather(message)
+
+@bot.message_handler(func=lambda message: message.text == 'Одежда')
+def show_cloth(message):
+    # функция вызывает печать подходящей одежды под погоду
+    personal_cloth(message)
