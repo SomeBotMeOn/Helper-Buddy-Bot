@@ -1,10 +1,8 @@
-from pyexpat.errors import messages
-
-from handlers.messagehandler import info
-from handlers.messagehandler_2 import weather
-from handlers.messagehandler_2 import information
-from handlers.messagehandler_2 import commands
-from handlers.messagehandler_2 import print_all_users
+from handlers.user_handlers.messagehandler import info
+from handlers.user_handlers.messagehandler_2 import weather
+from handlers.user_handlers.messagehandler_2 import information
+from handlers.user_handlers.messagehandler_2 import commands
+from handlers.user_handlers.messagehandler_2 import print_all_users
 
 #
 # Описание папок
@@ -20,10 +18,10 @@ from handlers.messagehandler_2 import print_all_users
 #
 
 from bot_instance import bot
-from handlers.starthandler import main
-from utilits.assets import stickers, emoji
+from handlers.user_handlers.starthandler import main
 
-# обработка команды старт; команда в папке handlers в starthandler
+
+# обработка команды старт; команда в папке user_handlers в starthandler
 @bot.message_handler(commands=['start'])
 def start_handler(message):
     main(message)

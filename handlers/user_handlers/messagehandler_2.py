@@ -1,26 +1,18 @@
 import sqlite3
 
-import pandas as pd
 import telebot
 import requests
-import datetime
-from telebot import types
 
-from pyexpat.errors import messages
 from utilits.logger import commands_bot
 from bot_instance import bot, API_weather
-from utilits.assets import stickers, emoji, icon_to_emoji
-from handlers.weather import show_weather
-from handlers.buttons import func_buttons
-from models.rewrite_classif_data import knn_and_rewrite
+from handlers.buttons_functions.buttons import func_buttons
 from database.personal_classif import personal_classification
 
 # Обработка других встроенных команд
 def weather(message):
     # функция выводит текущую погоду
-
     user_id = message.from_user.id
-    conn = sqlite3.connect('../database/users_db.sql')
+    conn = sqlite3.connect('../database/weather_outside.sqlite3')
     cur = conn.cursor()
     cur.execute("SELECT city FROM users WHERE id=?",
                 (user_id,))
@@ -125,9 +117,6 @@ def get_user_city(message):
         error_message = f"К сожалению, Вы указали город с ошибкой, либо такого города не существует! Попробуйте еще раз!"
         msg = bot.send_message(message.chat.id, error_message, parse_mode='html')
         bot.register_next_step_handler(msg, get_user_city)
-
-
-
 
 
 

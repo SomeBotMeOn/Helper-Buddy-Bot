@@ -1,8 +1,9 @@
 from telebot import types
 
-from handlers.weather import show_weather
+from handlers.classification_functions.classification_funcs import news
+from handlers.weather_functions.weather import show_weather
 from bot_instance import bot
-from models.rewrite_classif_data import personal_cloth
+from models.classification.rewrite_classif_data import personal_cloth
 
 def func_buttons(message):
     # создаем кнопки
@@ -24,3 +25,8 @@ def import_show_weather(message):
 def show_cloth(message):
     # функция вызывает печать подходящей одежды под погоду
     personal_cloth(message)
+
+@bot.message_handler(func=lambda message: message.text == 'Новости')
+def show_news(message):
+    # функция вызывает печать подходящей одежды под погоду
+    news(message)

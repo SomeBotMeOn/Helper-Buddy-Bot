@@ -1,9 +1,8 @@
 from sklearn.neighbors import KNeighborsClassifier
-import numpy as np
 import pandas as pd
 import sqlite3
 # from personal_classif import personal_classification
-from handlers.weather import get_current_weather
+from handlers.weather_functions.weather import get_current_weather
 from bot_instance import bot
 
 

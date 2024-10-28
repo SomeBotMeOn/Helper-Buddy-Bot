@@ -1,13 +1,6 @@
 # Для обработки команды старт
-from gc import callbacks
-import sqlite3
-import telebot
-import requests
-from telebot import types
 
-from bot_instance import bot
-from utilits.assets import stickers, emoji
-from handlers.messagehandler_2 import callback, get_user_name, ask_user_name
+from handlers.user_handlers.messagehandler_2 import ask_user_name
 from bot_instance import bot
 
 
