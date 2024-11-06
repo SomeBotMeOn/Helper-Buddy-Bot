@@ -1,9 +1,9 @@
-from models.parser.economic_parser import send_economic_news
-from models.parser.incident_parser import send_incident_news
-from models.parser.policy_parser import send_policy_news
-from models.parser.science_parser import send_science_news
-from models.parser.society_parser import send_society_news
-from models.parser.sport_parser import send_sport_news
+from models.parser.news_parser.economic_parser import send_economic_news
+from models.parser.news_parser.incident_parser import send_incident_news
+from models.parser.news_parser.policy_parser import send_policy_news
+from models.parser.news_parser.science_parser import send_science_news
+from models.parser.news_parser.society_parser import send_society_news
+from models.parser.news_parser.sport_parser import send_sport_news
 from bot_instance import bot
 from telebot import types
 
