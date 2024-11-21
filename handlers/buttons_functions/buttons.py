@@ -32,15 +32,16 @@ def show_cloth(message):
 
 @bot.message_handler(func=lambda message: message.text == 'Новости')
 def show_news(message):
-    # функция вызывает печать подходящей одежды под погоду
+    # функция вызывает печать новостей
     news(message)
 
 @bot.message_handler(func=lambda message: message.text == 'Мероприятия')
 def show_events(message):
-    # функция вызывает печать подходящей одежды под погоду
+    # функция вызывает печать мероприятий
     send_event_news(message)
 
 @bot.message_handler(func=lambda message: message.text == 'Отзыв')
 def handle_feedback_request(message):
     # функция вызывает отправку сообщения с отзывом
     send_feedback_request(message)
+

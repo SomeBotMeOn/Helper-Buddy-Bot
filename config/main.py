@@ -2,7 +2,8 @@ from handlers.user_handlers.messagehandler import info
 from handlers.user_handlers.messagehandler_2 import weather
 from handlers.user_handlers.messagehandler_2 import information
 from handlers.user_handlers.messagehandler_2 import commands
-from handlers.user_handlers.messagehandler_2 import print_all_users
+from models.classification import clothes_response
+from handlers.buttons_functions import buttons
 
 #
 # Описание папок
@@ -19,7 +20,6 @@ from handlers.user_handlers.messagehandler_2 import print_all_users
 
 from bot_instance import bot
 from handlers.user_handlers.starthandler import main
-
 
 # обработка команды старт; команда в папке user_handlers в starthandler
 @bot.message_handler(commands=['start'])
@@ -38,11 +38,6 @@ def infa(message):
 @bot.message_handler(commands=['commands'])
 def com(message):
     commands(message)
-
-@bot.message_handler(commands=['users'])
-def print_users(message):
-    # функция выводит всех пользователей
-    print_all_users(message)
 
 # обработка текстовых сообщений пользователя c файла messagehandler
 @bot.message_handler()

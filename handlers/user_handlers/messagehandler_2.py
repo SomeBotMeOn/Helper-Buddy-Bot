@@ -117,31 +117,3 @@ def get_user_city(message):
         error_message = f"К сожалению, Вы указали город с ошибкой, либо такого города не существует! Попробуйте еще раз!"
         msg = bot.send_message(message.chat.id, error_message, parse_mode='html')
         bot.register_next_step_handler(msg, get_user_city)
-
-
-
-
-
-#  УДАЛИТЬ ПОТОМ, ТАК КАК ФУНКЦИЯ ВЫВОДИТ ВСЮ БД
-
-def print_all_users(message):
-    # функция выводит всех пользователей
-    markup = telebot.types.InlineKeyboardMarkup()
-    markup.add(telebot.types.InlineKeyboardButton('Список пользователей', callback_data='users'))
-    bot.send_message(message.chat.id, 'Вы можете обновить список, нажав на кнопку ниже.', reply_markup=markup)
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback(call):
-    conn = sqlite3.connect('../database/users_db.sql')
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM users')
-    users = cur.fetchall()
-
-    info = ''
-    for el in users:
-        info += (f'Id: {el[0]}, Имя: {el[1]}, Город: {el[2]}\n')
-
-    cur.close()
-    conn.close()
-
-    bot.send_message(call.message.chat.id, info)

@@ -50,6 +50,22 @@ clothes_codes = [
     "майка/футболка"
 ]
 
+def clear_databese_if_not_callback(num_id, conn, cur):
+    # Выполняем запрос для удаления строк с отрицательными значениями в столбце 'clothes_type'
+    query = f"DELETE FROM 'weather_{num_id}' WHERE clothes_type < 0"
+    cur.execute(query)
+
+    # Сохраняем изменения
+    conn.commit()
+
+    # Проверим, сколько строк было удалено
+    rows_deleted = cur.rowcount
+
+    if rows_deleted > 0:
+        print(f"Удалены {rows_deleted} строк с отрицательными значениями в колонке 'clothes_type'.")
+    else:
+        print("Строки с отрицательными значениями в колонке 'clothes_type' отсутствуют.")
+
 
 # функция нормализации
 def knn_and_rewrite(num_id, x_test):
@@ -72,6 +88,9 @@ def knn_and_rewrite(num_id, x_test):
     x_test = x_test.transpose()
     conn_n = sqlite3.connect('../database/weather_outside.sqlite3')
     cur = conn_n.cursor()
+
+    # очистим таблицу от временных данных, на которые пользователь не ответил
+    clear_databese_if_not_callback(num_id, conn_n, cur)
 
     df = pd.read_sql("SELECT * FROM 'weather_%d'" %num_id, conn_n)
     # print(df)

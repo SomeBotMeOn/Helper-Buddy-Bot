@@ -20,7 +20,16 @@ def personal_classification(num_id):
         'clothes_type'	INTEGER)" % num_id)
     conn.commit()
 
-    cur.execute("INSERT INTO 'weather_%d' SELECT * FROM 'weather'" % num_id)
+    # Проверяем количество строк в таблице
+
+    cur.execute(f"SELECT COUNT(*) FROM 'weather_{num_id}'")
+    row_count = cur.fetchone()[0]
+
+    if row_count == 0:
+        # Если таблица пустая, выполняем вставку данных
+        cur.execute(f"INSERT INTO 'weather_{num_id}' SELECT * FROM 'weather'")
+        conn.commit()
+
     conn.commit()
     cur.close()
     conn.close()
