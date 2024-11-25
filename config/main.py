@@ -5,6 +5,9 @@ from handlers.user_handlers.messagehandler_2 import commands
 from models.classification import clothes_response
 from handlers.buttons_functions import buttons
 
+import warnings
+warnings.filterwarnings("ignore")
+
 #
 # Описание папок
 # Utilits единственный файл который здесь лежит это

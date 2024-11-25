@@ -1,5 +1,6 @@
 from telebot import types
 from bot_instance import bot
+from models.classification.rewrite_classif_data import processing_callback_results
 
 def send_feedback_request(message):
     feedback_message = (
@@ -44,5 +45,8 @@ def handle_feedback_response(callback):
             response = "Спасибо за ваш отзыв!"
 
         bot.send_message(callback.message.chat.id, response)
+
+        processing_callback_results(callback.message.chat.id, int(feedback_value))
+
     except Exception as e:
         print(f'An error occurred: {e}')

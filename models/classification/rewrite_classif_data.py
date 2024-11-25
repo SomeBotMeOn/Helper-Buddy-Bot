@@ -50,6 +50,81 @@ clothes_codes = [
     "майка/футболка"
 ]
 
+def processing_callback_results(num_id, num_items):
+    print('ok0')
+    # преобразуем значение num_items под коэффициент на который надо умножать
+    num_strings = abs(num_items - 2)*2 + 1
+    conn = sqlite3.connect('../database/weather_outside.sqlite3')
+    cur = conn.cursor()
+    print('ok1')
+
+    # Выбираем строки с отрицательными значениями в clothes_type
+    query = f"SELECT * FROM 'weather_{num_id}' WHERE clothes_type < 0;"
+    cur.execute(query)
+    print('ok2')
+    # Получаем все строки с отрицательными значениями
+    rows = cur.fetchall()
+
+    if len(rows) > 0:
+        # Изменяем значение clothes_type, умножив его на -1
+        updated_rows = []
+        for row in rows:
+            new_row = list(row)
+            new_row[-1] = new_row[-1] * (-1) -1 # Умножаем последний элемент (clothes_type) на -1 и вычитаем 1
+            print('ok3')
+            #преобразуем в то, что было бы надеть комфортнее, если предсказание не совпало
+            if num_items == 0:
+                if new_row[-1] + 2 >= 10: new_row[-1] = 10
+                else: new_row[-1] += 2
+
+            if num_items == 1:
+                if new_row[-1] + 1 >= 10: new_row[-1] = 10
+                else: new_row[-1] += 1
+
+            if num_items == 3:
+                if new_row[-1] - 1 <= 0:
+                    new_row[-1] = 0
+                else:
+                    new_row[-1] -= 1
+
+            if num_items == 4:
+                if new_row[-1] - 2 <= 0:
+                    new_row[-1] = 0
+                else:
+                    new_row[-1] -= 2
+
+            updated_rows.append(new_row)
+
+
+        # результат правильного предсказания будем сохранять только в случае, если длина таблицы менее 250
+        # Запрашиваем количество строк в таблице
+        cur.execute(f"SELECT COUNT(*) FROM 'weather_{num_id}';")
+        count_table_strings = cur.fetchone()[0]
+        print(f"Количество строк в таблице: {count_table_strings}")
+        if count_table_strings > 250 and num_items == 2:
+            num_strings = 0
+
+        # Дублируем измененные строки num_strings раз
+        final_rows = []
+        for _ in range(num_strings):
+            final_rows.extend(updated_rows)
+
+        # Удаляем старые строки с отрицательными значениями
+        delete_query = f"DELETE FROM 'weather_{num_id}' WHERE clothes_type < 0"
+        cur.execute(delete_query)
+
+        # Добавляем новые строки в таблицу
+        insert_query = f"INSERT INTO 'weather_{num_id}' VALUES ({','.join(['?' for _ in range(len(final_rows[0]))])})"
+        cur.executemany(insert_query, final_rows)
+
+        # Сохраняем изменения
+        conn.commit()
+
+        print(f"{len(final_rows)} строк успешно добавлено в таблицу 'weather_{num_id}'.")
+    else:
+        print("Строк с отрицательными значениями в колонке 'clothes_type' не обнаружено.")
+
+
 def clear_databese_if_not_callback(num_id, conn, cur):
     # Выполняем запрос для удаления строк с отрицательными значениями в столбце 'clothes_type'
     query = f"DELETE FROM 'weather_{num_id}' WHERE clothes_type < 0"
