@@ -7,7 +7,6 @@ def send_feedback_request(message):
         "Был ли мой совет об одежде полезен? Если вы надели другую одежду, "
         "всё равно ответьте на вопрос, это поможет мне подстроиться под ваше ощущение погоды."
     )
-
     markup = types.InlineKeyboardMarkup()
     buttons = [
         types.InlineKeyboardButton(
